@@ -1,12 +1,18 @@
-name = "Blank"
+name = "Mogra"
 license = "MIT"
-licenselink = "https://github.com/vimux/blank/blob/master/LICENSE"
-description = "Starter Hugo theme for developers."
-homepage = "https://github.com/vimux/blank/"
-tags = ["blog", "plain", "blank", "starter", "development"]
+licenselink = "https://github.com/meghprkh/mogra-hugo-theme/blob/master/LICENSE"
+description = "Simple clean theme. Suitable for Math/Tech blogs."
+homepage = "https://github.com/meghprkh/mogra-hugo-theme/"
+tags = ["blog", "plain", "simple", "clean"]
 features = ["blog"]
 min_version = "0.20"
 
 [author]
+  name = "Megh Parikh"
+  homepage = "https://github.com/meghprkh"
+
+# If porting an existing theme
+[original]
   name = "Vimux"
-  homepage = "https://github.com/vimux"
+  homepage = "https://github.com/vimux/blank"
+  repo = "https://github.com/vimux/blank"
