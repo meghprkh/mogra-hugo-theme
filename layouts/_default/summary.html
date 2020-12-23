@@ -1,13 +1,26 @@
-<article>
-	<h1><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
-	<time>{{ .Date.Format "02.01.2006 15:04" }}</time>
-	{{ range .Params.tags }}
-	<a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
-	{{ end }}
-	<div>
-		{{ .Summary }}
-		{{ if .Truncated }}
-			<a href="{{ .Permalink }}">Read more...</a>
-		{{ end }}
-	</div>
+<article class="article-summary">
+    <h1><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
+    <div class="article-details">
+        <time>{{ .Date.Format "Mon Jan 2 2006" }}</time>
+        {{ if .Params.categories }}
+            in
+            <a
+                href="{{ "/categories/" | relLangURL }}{{ .Params.categories | urlize }}"
+                >{{ .Params.categories }}</a
+            >
+        {{ end }}
+        <div class="tags">
+            {{ range .Params.tags }}
+                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}"
+                    >#{{ . }}</a
+                >
+            {{ end }}
+        </div>
+    </div>
+    <div class="summary">
+        {{ .Summary }}
+        {{ if .Truncated }}
+            <a href="{{ .Permalink }}" class="read-more">Read more...</a>
+        {{ end }}
+    </div>
 </article>
