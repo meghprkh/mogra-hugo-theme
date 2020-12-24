@@ -1,0 +1,10 @@
+{{ if (index .Params "comments" | default true) }}
+    {{ if (isset .Site.Params "utterances") }}
+        {{ safeHTML .Site.Params.utterances }}
+    {{ end }}
+    {{ if .Site.DisqusShortname }}
+        <div>
+            {{ template "_internal/disqus.html" . }}
+        </div>
+    {{ end }}
+{{ end }}
