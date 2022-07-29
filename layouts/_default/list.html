@@ -7,8 +7,14 @@
 		</div>
 		{{ end }}
 
-		{{ range .Paginator.Pages }}
-			{{ .Render "summary" }}
+		{{ if hasPrefix .Title "series"}}
+			{{ range .Paginator.Pages.Reverse }}
+				{{ .Render "summary" }}
+			{{ end }}
+		{{ else }}
+			{{ range .Paginator.Pages }}
+				{{ .Render "summary" }}
+			{{ end }}
 		{{ end }}
 		{{ partial "pagination.html" . }}
 	</main>
