@@ -13,7 +13,10 @@
 				{{ end }}
 				</div>
 			<div>
-				{{ .Content }}
+				{{ if .Params.enableTOC }}
+					{{ .TableOfContents }}
+				{{ end }}
+				{{ .Content | safeHTML }}
 			</div>
 			{{ with .Params.tags }}
 			<div class="tags">
