@@ -1,0 +1,35 @@
+<!-- Inspired from https://www.foonathan.net/2021/05/hugo-godbolt/ -->
+
+{{ $source        := .Inner | replaceRE "(?ms:^```[^\n]*\n(.*)```$)" "$1" }}
+{{ $full_source   := trim ($source | replaceRE "//({|})\\n" "") "\n" }}
+
+{{ $language    := findRE "^\n*```(.*)\n" .Inner 1 | default (slice "```") }}
+{{ $language    := index $language 0 | replaceRE "(\n|```)" ""}}
+{{ $language    := default $language (.Get "language") }}
+{{ $language    := replace $language "cpp" "c++" }}
+
+{{ $default_compilers := dict "c++" "g121" "cpp" "g121" "rust" "r1620" "clang" "clang1400" }}
+{{ $_compiler   := index $default_compilers $language }}
+{{ $_compiler   := default $_compiler (index $default_compilers (.Get "compiler_type" | default "")) }}
+{{ $_compiler   := default $_compiler (.Get "compiler" | default "") }}
+{{ $options     := .Get "options" }}
+{{ $lexy        := dict "id" "lexy" "version" "trunk" }}
+{{ $fmt         := dict "id" "fmt" "version" "trunk" }}
+{{ $compiler    := dict "id" $_compiler "options" $options }}
+{{ $executor    := dict "compiler" $compiler }}
+{{ $session     := dict "id" 1 "language" $language "source" $full_source "compilers" (slice $compiler) "executors" (slice $executor) }}
+{{ $clientstate := dict "sessions" (slice $session) }}
+
+{{ $clientstate_b64 := replace ($clientstate | jsonify | base64Encode) "/" "%2F" }}
+
+<div class="code-play-button">
+<a href="https://godbolt.org/clientstate/{{ $clientstate_b64 }}" target="_blank">&#x25B6;</a>
+</div>
+
+{{ $display_code := slice }}
+{{ range $index, $code := (split $source "\n//{\n" ) }}
+    {{ if ne $index 0 }}
+        {{ $display_code = $display_code | append (index (split $code "\n//}\n" ) 0) }}
+    {{ end }}
+{{ end }}
+{{ highlight (delimit $display_code "\n") $language "" }}
