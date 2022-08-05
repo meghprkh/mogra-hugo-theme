@@ -18,16 +18,24 @@
 				{{ end }}
 				{{ .Content | safeHTML }}
 			</div>
-			{{ with .Params.tags }}
 			<div class="tags">
+				{{ with .Params.tags }}
 				[ Tags:
 				{{ range . }}
 					<a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}"
 						>#{{ . }}</a
 					>
 				{{ end }} ]
+				{{ end }}
+				{{ with .Params.crossposts }}
+					[ Crossposts:
+					{{ range $site, $url := . }}
+						<a href="{{ $url }}"
+							>{{ $site }}</a
+						>
+					{{ end }} ]
+				{{ end }}
 			</div>
-			{{ end }}
 		</article>
 	{{ partial "comments.html" . }}
 	</main>
